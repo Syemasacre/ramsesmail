@@ -1,0 +1,40 @@
+# ==============================
+# Squid Proxy Configuration
+# ==============================
+
+# Proxy listens on port 3128
+http_port 3128
+
+# ------------------------------
+# Authentication Setup
+# ------------------------------
+# Use NCSA authentication with password file
+auth_param basic program /usr/lib/squid/basic_ncsa_auth /etc/squid/passwd
+auth_param basic realm SecureProxy
+auth_param basic credentialsttl 2 hours
+
+# ACL for authenticated users
+acl authenticated proxy_auth REQUIRED
+
+# ACL for your allowed IP
+acl allowed_ip src YOUR_PUBLIC_IP
+
+# ------------------------------
+# Access Rules (Important Order)
+# ------------------------------
+
+# Allow only requests from your IP AND authenticated
+http_access allow allowed_ip authenticated
+
+# Deny everything else
+http_access deny all
+
+# ------------------------------
+# Optional: Disable caching (for simple proxy use)
+# ------------------------------
+cache deny all
+
+# ------------------------------
+# Logging
+# ------------------------------
+access_log /var/log/squid/access.log
