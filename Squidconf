@@ -17,7 +17,7 @@ auth_param basic credentialsttl 2 hours
 acl authenticated proxy_auth REQUIRED
 
 # ACL for your allowed IP
-acl allowed_ip src YOUR_PUBLIC_IP
+acl allowed_ip src 0.0.0.0/0
 
 # ------------------------------
 # Access Rules (Important Order)
